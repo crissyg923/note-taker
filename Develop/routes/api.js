@@ -8,6 +8,19 @@ api.get('/notes', (req,res) => {
     error ? console.error(error) : res.json(JSON.parse(data)));
 });
 
+api.get('/notes/:note_id', (req, res) => {
+    const noteId = req.params.note_id;
+    fs.readFile('./db/notes.json', 'utf-8', (error, data) =>
+    error ? console.error(error) : res.json(JSON.parse(data)))
+    // .then((note) => JSON.parse(note))
+    .then((data) => {
+        const result = json.filter((data) => data.note_Id === noteId);
+        return result.length > 0
+        ? res.json(result)
+        : res.json('Note not found!')
+    });
+});
+
 api.post('/notes', (req,res) => {
     console.log(req.body);
     const { title, text} = req.body;

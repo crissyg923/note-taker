@@ -10,12 +10,12 @@ api.get('/notes', (req,res) => {
 
 api.post('/notes', (req,res) => {
     console.log(req.body);
-    const { noteTitle, noteText} = req.body;
+    const { title, text} = req.body;
 
     if (req.body) {
         const newNote = {
-            noteTitle,
-            noteText,
+            title,
+            text,
             note_id: uuidv4(),
         };
        fs.readFile('./db/notes.json', 'utf-8', (error, data) => {

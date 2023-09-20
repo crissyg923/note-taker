@@ -24,7 +24,7 @@ api.post('/notes', (req,res) => {
             } else {
        const noteData=JSON.parse(data);
        noteData.push(newNote);
-       fs.writeFile('./db/notes.html', noteData, (err) => {
+       fs.writeFile('./db/notes.json', JSON.stringify(noteData), (err) => {
        if (err) {
          console.error(err);
        } else {

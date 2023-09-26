@@ -8,18 +8,6 @@ api.get('/notes', (req,res) => {
     error ? console.error(error) : res.json(JSON.parse(data)));
 });
 
-// api.get('/notes', (req, res) => {
-//     // const noteId = req.params.note_id;
-//     fs.readFile('./db/notes.json', 'utf-8', (error, data) =>
-//     error ? console.error(error) : res.json(JSON.parse(data)))
-//     // .then((note) => JSON.parse(note))
-//     // .then((data) => {
-//     //     const result = json.filter((data) => data.note_Id === noteId);
-//     //     return result.length > 0
-//     //     ? res.json(result)
-//     //     : res.json('Note not found!')
-//     // });
-// });
 
 api.post('/notes', (req,res) => {
     console.log(req.body);
@@ -29,7 +17,7 @@ api.post('/notes', (req,res) => {
         const newNote = {
             title,
             text,
-            note_id: uuidv4(),
+            id: uuidv4(),
         };
        fs.readFile('./db/notes.json', 'utf-8', (error, data) => {
             if(error) {
@@ -41,14 +29,30 @@ api.post('/notes', (req,res) => {
        if (err) {
          console.error(err);
        } else {
-        res.json(noteData)
-         console.log('Successfully added note!');
+            res.json(noteData)
+            console.log('Successfully added note!');
        } 
     });
 }
 });
 }
 });
+
+api.delete('/notes/:id', (req, res) => {
+    console.log(req.params.id);
+    var requestedNote=req.params.id;
+    let notesArray=[];
+    fs.readFile('./db/notes.json', 'utf-8', (error, data) => {
+        if (error) {
+            console.log('Error reading notes.');
+        }
+        notesArray.push(data);
+        // console.log(notesArray);
+        results=notesArray.filter((noteID) => noteID !== requestedNote);
+        console.log(results);
+
+    })
+} );
     
 
 module.exports = api;

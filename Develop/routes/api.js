@@ -22,12 +22,14 @@ api.post('/notes', (req,res) => {
        fs.readFile('./db/notes.json', 'utf-8', (error, data) => {
             if(error) {
                 console.error('Error in adding note');
+                return res.status('Error reading notes from json file.')
             } else {
        const noteData=JSON.parse(data);
        noteData.push(newNote);
        fs.writeFile('./db/notes.json', JSON.stringify(noteData), (err) => {
        if (err) {
          console.error(err);
+         return res.status(500).send('Error displaying notes.')
        } else {
             res.json(noteData)
             console.log('Successfully added note!');
@@ -41,18 +43,28 @@ api.post('/notes', (req,res) => {
 api.delete('/notes/:id', (req, res) => {
     console.log(req.params.id);
     var requestedNote=req.params.id;
-    let notesArray=[];
+    
     fs.readFile('./db/notes.json', 'utf-8', (error, data) => {
         if (error) {
             console.log('Error reading notes.');
+            return res.status(500).send('Error reading notes.')
         }
-        notesArray.push(data);
-        // console.log(notesArray);
-        results=notesArray.filter((noteID) => noteID !== requestedNote);
-        console.log(results);
-
+        const parsedData=JSON.parse(data);
+        console.log(parsedData[3].id);
+        const noteToRemove = parsedData.findIndex(note => note.id===requestedNote);
+        parsedData.splice(noteToRemove, 1);
+        
+    fs.writeFile('./db/notes.json', JSON.stringify(parsedData), (err) => {
+        if (err) {
+              console.error(err);
+              return res.status(500).send('Error displaying notes.')
+        } else {
+                 res.json(parsedData)
+                 console.log('Successfully deleted note!');
+               } 
     })
-} );
+})
+});
     
 
 module.exports = api;

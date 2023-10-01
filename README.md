@@ -3,7 +3,7 @@
 ## Description
 This note taker application is designed to create a simple platform for taking notes that can be saved, updated, and deleted. It contains a user-friendly interface, which makes it perfect for everyday use.  This was my first time deploying to Heroku, so this was a great opportunity to become acclimated with the process of Heroku deployment.  I also got the chance to learn more about accessing the req.body element.
 
-![Site Screenshot](./images/site-screenshot.png)
+![Site Screenshot](./Develop/images/site-screenshot.png)
 
 ## Table of Contents
 

@@ -1,3 +1,4 @@
+// Imports necessary dependencies 
 const express = require('express');
 const path = require('path');
 const api = require('./routes/api');
@@ -12,15 +13,17 @@ app.use('/api', api);
 
 app.use(express.static('public'));
 
+// Route for homepage
 app.get('/', (req, res) =>
     res.sendFile(path.join(__dirname, 'public/index.html'))
 );
 
+// Route for retrieving and displaying notes
 app.get('/notes', (req,res) =>
     res.sendFile(path.join(__dirname, 'public/notes.html'))
 )
 
-
+// Route that leads to homepage for any undefined route
 app.get('*', (req,res) =>
     res.sendFile(path.join(__dirname, 'public/index.html')) 
 );

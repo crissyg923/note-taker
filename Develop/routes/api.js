@@ -1,14 +1,14 @@
 const api=require('express').Router();
-// import {nanoid} from 'nanoid';
 const { v4: uuidv4 } = require('uuid');
 const fs=require('fs');
 
+// This route is what holds the note data in json form 
 api.get('/notes', (req,res) => {
     fs.readFile('./db/notes.json', 'utf-8', (error,data) =>
     error ? console.error(error) : res.json(JSON.parse(data)));
 });
 
-
+// This route saves a new note to the notes.json file.
 api.post('/notes', (req,res) => {
     console.log(req.body);
     const { title, text} = req.body;
@@ -19,6 +19,7 @@ api.post('/notes', (req,res) => {
             text,
             id: uuidv4(),
         };
+        // Reads the json file
        fs.readFile('./db/notes.json', 'utf-8', (error, data) => {
             if(error) {
                 console.error('Error in adding note');
@@ -26,6 +27,7 @@ api.post('/notes', (req,res) => {
             } else {
        const noteData=JSON.parse(data);
        noteData.push(newNote);
+        // Saves note created by user to the notes.json file.
        fs.writeFile('./db/notes.json', JSON.stringify(noteData), (err) => {
        if (err) {
          console.error(err);
@@ -40,6 +42,7 @@ api.post('/notes', (req,res) => {
 }
 });
 
+// Route that deletes note by selected note ID
 api.delete('/notes/:id', (req, res) => {
     console.log(req.params.id);
     var requestedNote=req.params.id;

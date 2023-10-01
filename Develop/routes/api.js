@@ -53,7 +53,6 @@ api.delete('/notes/:id', (req, res) => {
             return res.status(500).send('Error reading notes.')
         }
         const parsedData=JSON.parse(data);
-        console.log(parsedData[3].id);
         const noteToRemove = parsedData.findIndex(note => note.id===requestedNote);
         parsedData.splice(noteToRemove, 1);
         
